@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 3000;
 // 미들웨어
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.'));
 
+// API 엔드포인트를 정적 파일 서빙보다 먼저 정의
 // API 엔드포인트: 코디 추천
 app.post('/api/recommend', (req, res) => {
   const { weather, situation, mood } = req.body;
@@ -60,9 +60,12 @@ app.get('/api/options', (req, res) => {
   });
 });
 
-// 루트 경로
+// 정적 파일 서빙 (API 엔드포인트 이후)
+app.use(express.static('.'));
+
+// 루트 경로 (정적 파일 미들웨어가 처리)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // 서버 시작
