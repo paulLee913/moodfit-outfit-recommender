@@ -13,13 +13,37 @@
             <div class="header-content">
                 <h1 class="logo">🎨 MoodFit</h1>
                 <p class="tagline">날씨와 기분에 맞는 오늘의 코디를 찾아보세요</p>
+                <div id="userStatus" class="user-status hidden">
+                    <span id="userNameText"></span>
+                    <button id="logoutBtn" class="logout-btn">로그아웃</button>
+                </div>
             </div>
         </header>
 
         <!-- 메인 컨텐츠 -->
         <main class="main-content">
+            <!-- 로그인/회원가입 -->
+            <section id="authSection" class="auth-section">
+                <div class="auth-container">
+                    <h2>로그인 또는 회원가입</h2>
+                    <div class="form-group auth-group">
+                        <label for="studentNumber" class="form-label">학번</label>
+                        <input id="studentNumber" type="text" placeholder="학번을 입력하세요" autocomplete="username" />
+                    </div>
+                    <div class="form-group auth-group">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input id="password" type="password" placeholder="비밀번호를 입력하세요" autocomplete="current-password" />
+                    </div>
+                    <div class="auth-buttons">
+                        <button id="loginBtn" class="auth-btn">로그인</button>
+                        <button id="signupBtn" class="auth-btn secondary">회원가입</button>
+                    </div>
+                    <p id="authMessage" class="auth-message"></p>
+                </div>
+            </section>
+
             <!-- 선택 폼 -->
-            <section class="selection-section">
+            <section class="selection-section hidden">
                 <div class="form-container">
                     <h2>조건 선택</h2>
                     

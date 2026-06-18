@@ -5,10 +5,20 @@ const moodOptions = document.querySelectorAll('input[name="mood"]');
 const recommendBtn = document.getElementById('recommendBtn');
 const newRecommendBtn = document.getElementById('newRecommendBtn');
 
+const authSection = document.getElementById('authSection');
 const selectionSection = document.querySelector('.selection-section');
 const resultSection = document.getElementById('resultSection');
 const loadingSpinner = document.getElementById('loadingSpinner');
 const errorMessage = document.getElementById('errorMessage');
+
+const studentNumberInput = document.getElementById('studentNumber');
+const passwordInput = document.getElementById('password');
+const loginBtn = document.getElementById('loginBtn');
+const signupBtn = document.getElementById('signupBtn');
+const authMessage = document.getElementById('authMessage');
+const userStatus = document.getElementById('userStatus');
+const userNameText = document.getElementById('userNameText');
+const logoutBtn = document.getElementById('logoutBtn');
 
 // 모든 선택지
 const allOptions = [...weatherOptions, ...situationOptions, ...moodOptions];
@@ -20,6 +30,9 @@ allOptions.forEach(option => {
 
 recommendBtn.addEventListener('click', handleRecommendClick);
 newRecommendBtn.addEventListener('click', resetForm);
+loginBtn.addEventListener('click', handleLogin);
+signupBtn.addEventListener('click', handleSignup);
+logoutBtn.addEventListener('click', handleLogout);
 
 // 추천 받기 버튼 상태 업데이트
 function updateButtonState() {
@@ -169,5 +182,135 @@ function getMoodLabel(mood) {
 }
 
 // 초기화
+loadUser();
 updateButtonState();
 console.log('MoodFit 초기화 완료!');
+
+function getStoredUsers() {
+    try {
+        const users = localStorage.getItem('moodfitUsers');
+        return users ? JSON.parse(users) : {};
+    } catch (error) {
+        console.error('로컬 사용자 데이터 파싱 오류:', error);
+        return {};
+    }
+}
+
+function setStoredUsers(users) {
+    localStorage.setItem('moodfitUsers', JSON.stringify(users));
+}
+
+function showAuthMessage(message, isError = false) {
+    authMessage.textContent = message;
+    authMessage.style.color = isError ? 'var(--error-color)' : 'var(--success-color)';
+}
+
+function clearAuthMessage() {
+    authMessage.textContent = '';
+}
+
+function setUserLoggedIn(studentNumber) {
+    localStorage.setItem('moodfitCurrentUser', studentNumber);
+}
+
+function clearUserLoggedIn() {
+    localStorage.removeItem('moodfitCurrentUser');
+}
+
+function getCurrentUser() {
+    return localStorage.getItem('moodfitCurrentUser');
+}
+
+function loadUser() {
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+        showUserStatus(currentUser);
+        showSelectionSection();
+    } else {
+        showAuthSection();
+    }
+}
+
+function showAuthSection() {
+    authSection.classList.remove('hidden');
+    selectionSection.classList.add('hidden');
+    resultSection.classList.add('hidden');
+    userStatus.classList.add('hidden');
+}
+
+function showSelectionSection() {
+    authSection.classList.add('hidden');
+    selectionSection.classList.remove('hidden');
+    resultSection.classList.add('hidden');
+    userStatus.classList.remove('hidden');
+}
+
+function showUserStatus(studentNumber) {
+    userNameText.textContent = `환영합니다, ${studentNumber}님`;
+    userStatus.classList.remove('hidden');
+}
+
+function handleLogin() {
+    const studentNumber = studentNumberInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!studentNumber || !password) {
+        showAuthMessage('학번과 비밀번호를 모두 입력해주세요.', true);
+        return;
+    }
+
+    const users = getStoredUsers();
+    const user = users[studentNumber];
+
+    if (!user) {
+        showAuthMessage('등록된 회원이 없습니다. 회원가입을 먼저 해주세요.', true);
+        return;
+    }
+
+    if (user.password !== password) {
+        showAuthMessage('비밀번호가 일치하지 않습니다.', true);
+        return;
+    }
+
+    setUserLoggedIn(studentNumber);
+    showAuthMessage('로그인 성공! 코디 추천을 확인하세요.');
+    showUserStatus(studentNumber);
+    clearAuthForm();
+    setTimeout(showSelectionSection, 600);
+}
+
+function handleSignup() {
+    const studentNumber = studentNumberInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!studentNumber || !password) {
+        showAuthMessage('학번과 비밀번호를 모두 입력해주세요.', true);
+        return;
+    }
+
+    const users = getStoredUsers();
+
+    if (users[studentNumber]) {
+        showAuthMessage('이미 등록된 학번입니다. 로그인을 시도해주세요.', true);
+        return;
+    }
+
+    users[studentNumber] = { password };
+    setStoredUsers(users);
+    setUserLoggedIn(studentNumber);
+    showAuthMessage('회원가입이 완료되었습니다. 자동으로 로그인되었습니다.');
+    showUserStatus(studentNumber);
+    clearAuthForm();
+    setTimeout(showSelectionSection, 600);
+}
+
+function handleLogout() {
+    clearUserLoggedIn();
+    showAuthMessage('로그아웃 되었습니다. 다시 로그인해주세요.');
+    showAuthSection();
+}
+
+function clearAuthForm() {
+    studentNumberInput.value = '';
+    passwordInput.value = '';
+}
