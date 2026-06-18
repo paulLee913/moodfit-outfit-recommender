@@ -46,6 +46,12 @@ function updateButtonState() {
 
 // 추천 받기 클릭
 function handleRecommendClick() {
+    if (!getCurrentUser()) {
+        showAuthMessage('로그인 후에 추천 서비스를 이용해주세요.', true);
+        showAuthSection();
+        return;
+    }
+
     const weather = document.querySelector('input[name="weather"]:checked');
     const situation = document.querySelector('input[name="situation"]:checked');
     const mood = document.querySelector('input[name="mood"]:checked');
