@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodFit - 오늘 입기 좋은 코디 추천</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🎨 MoodFit</h1>
+                <p class="tagline">날씨와 기분에 맞는 오늘의 코디를 찾아보세요</p>
+            </div>
+        </header>
+
+        <!-- 메인 컨텐츠 -->
+        <main class="main-content">
+            <!-- 선택 폼 -->
+            <section class="selection-section">
+                <div class="form-container">
+                    <h2>조건 선택</h2>
+                    
+                    <!-- 날씨 선택 -->
+                    <div class="form-group">
+                        <label for="weather" class="form-label">오늘 날씨는 어떤가요?</label>
+                        <div class="options-grid weather-options">
+                            <div class="option-card">
+                                <input type="radio" id="weather-hot" name="weather" value="hot" required>
+                                <label for="weather-hot" class="option-label">
+                                    <span class="emoji">☀️</span>
+                                    <span class="text">더운 날씨</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="weather-cool" name="weather" value="cool" required>
+                                <label for="weather-cool" class="option-label">
+                                    <span class="emoji">🍂</span>
+                                    <span class="text">쌀쌀한 날씨</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="weather-rainy" name="weather" value="rainy" required>
+                                <label for="weather-rainy" class="option-label">
+                                    <span class="emoji">🌧️</span>
+                                    <span class="text">비 오는 날씨</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 상황 선택 -->
+                    <div class="form-group">
+                        <label for="situation" class="form-label">오늘 어떤 상황인가요?</label>
+                        <div class="options-grid situation-options">
+                            <div class="option-card">
+                                <input type="radio" id="situation-class" name="situation" value="class" required>
+                                <label for="situation-class" class="option-label">
+                                    <span class="emoji">📚</span>
+                                    <span class="text">대학 수업</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="situation-presentation" name="situation" value="presentation" required>
+                                <label for="situation-presentation" class="option-label">
+                                    <span class="emoji">🎤</span>
+                                    <span class="text">발표</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="situation-meeting" name="situation" value="meeting" required>
+                                <label for="situation-meeting" class="option-label">
+                                    <span class="emoji">👥</span>
+                                    <span class="text">약속/미팅</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="situation-interview" name="situation" value="interview" required>
+                                <label for="situation-interview" class="option-label">
+                                    <span class="emoji">💼</span>
+                                    <span class="text">면접</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="situation-walk" name="situation" value="walk" required>
+                                <label for="situation-walk" class="option-label">
+                                    <span class="emoji">🚶</span>
+                                    <span class="text">산책</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 분위기 선택 -->
+                    <div class="form-group">
+                        <label for="mood" class="form-label">원하는 분위기는?</label>
+                        <div class="options-grid mood-options">
+                            <div class="option-card">
+                                <input type="radio" id="mood-clean" name="mood" value="clean" required>
+                                <label for="mood-clean" class="option-label">
+                                    <span class="emoji">✨</span>
+                                    <span class="text">깔끔함</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="mood-comfortable" name="mood" value="comfortable" required>
+                                <label for="mood-comfortable" class="option-label">
+                                    <span class="emoji">🛋️</span>
+                                    <span class="text">편안함</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="mood-casual" name="mood" value="casual" required>
+                                <label for="mood-casual" class="option-label">
+                                    <span class="emoji">👕</span>
+                                    <span class="text">캐주얼</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="mood-neat" name="mood" value="neat" required>
+                                <label for="mood-neat" class="option-label">
+                                    <span class="emoji">👔</span>
+                                    <span class="text">단정함</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="mood-street" name="mood" value="street" required>
+                                <label for="mood-street" class="option-label">
+                                    <span class="emoji">🎨</span>
+                                    <span class="text">스트릿</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 추천 받기 버튼 -->
+                    <button id="recommendBtn" class="recommend-btn" disabled>추천 받기</button>
+                </div>
+            </section>
+
+            <!-- 결과 섹션 -->
+            <section id="resultSection" class="result-section hidden">
+                <div class="result-container">
+                    <div class="result-header">
+                        <h2 id="resultTitle">오늘의 추천 코디</h2>
+                        <button id="newRecommendBtn" class="new-recommend-btn">다시 선택하기</button>
+                    </div>
+
+                    <div class="result-content">
+                        <!-- 코디 방향 -->
+                        <div class="result-card direction-card">
+                            <h3>👗 코디 방향</h3>
+                            <p id="directionText"></p>
+                        </div>
+
+                        <!-- 추천 아이템 -->
+                        <div class="result-card items-card">
+                            <h3>🛍️ 추천 아이템</h3>
+                            <ul id="itemsList" class="items-list"></ul>
+                        </div>
+
+                        <!-- 추천 이유 -->
+                        <div class="result-card reason-card">
+                            <h3>💡 추천 이유</h3>
+                            <p id="reasonText"></p>
+                        </div>
+
+                        <!-- 주의할 점 -->
+                        <div class="result-card caution-card">
+                            <h3>⚠️ 주의할 점</h3>
+                            <p id="cautionText"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 로딩 상태 -->
+            <div id="loadingSpinner" class="loading-spinner hidden">
+                <div class="spinner"></div>
+                <p>추천을 생성 중입니다...</p>
+            </div>
+
+            <!-- 에러 메시지 -->
+            <div id="errorMessage" class="error-message hidden"></div>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="footer">
+            <p>MoodFit © 2024 | 당신의 기분에 맞는 완벽한 코디를 찾아보세요</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
