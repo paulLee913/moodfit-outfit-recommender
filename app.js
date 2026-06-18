@@ -33,9 +33,15 @@ function updateButtonState() {
 
 // 추천 받기 클릭
 async function handleRecommendClick() {
-    const weather = document.querySelector('input[name="weather"]:checked').value;
-    const situation = document.querySelector('input[name="situation"]:checked').value;
-    const mood = document.querySelector('input[name="mood"]:checked').value;
+    const weather = document.querySelector('input[name="weather"]:checked');
+    const situation = document.querySelector('input[name="situation"]:checked');
+    const mood = document.querySelector('input[name="mood"]:checked');
+
+    // 선택 검증
+    if (!weather || !situation || !mood) {
+        showError('모든 항목(날씨, 상황, 분위기)을 선택해주세요.');
+        return;
+    }
 
     // 로딩 상태 표시
     showLoading();
@@ -46,19 +52,25 @@ async function handleRecommendClick() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ weather, situation, mood })
+            body: JSON.stringify({ 
+                weather: weather.value, 
+                situation: situation.value, 
+                mood: mood.value 
+            })
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
-            throw new Error(data.error || '추천을 받을 수 없습니다.');
+            const data = await response.json();
+            throw new Error(data.error || `오류 발생: ${response.status}`);
         }
+
+        const data = await response.json();
 
         // 결과 표시
         displayResult(data);
     } catch (error) {
-        showError(error.message);
+        console.error('추천 요청 오류:', error);
+        showError(error.message || '서버와 통신할 수 없습니다. 잠시 후 다시 시도해주세요.');
     } finally {
         hideLoading();
     }
