@@ -111,10 +111,12 @@ function displayResult(data) {
 
 // 에러 표시
 function showError(message) {
-    selectionSection.classList.add('hidden');
+    selectionSection.classList.remove('hidden');
     resultSection.classList.add('hidden');
     errorMessage.classList.remove('hidden');
-    errorMessage.textContent = message;
+    errorMessage.textContent = `⚠️ ${message}`;
+    errorMessage.scrollIntoView({ behavior: 'smooth' });
+    console.error('추천 오류:', message);
 }
 
 // 폼 리셋

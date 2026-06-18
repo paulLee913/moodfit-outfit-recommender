@@ -192,13 +192,16 @@ body {
 .result-container {
     max-width: 900px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .result-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid var(--border-color);
 }
@@ -209,8 +212,8 @@ body {
 }
 
 .new-recommend-btn {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 15px 30px;
+    font-size: 16px;
     border: 2px solid var(--primary-color);
     background: white;
     color: var(--primary-color);
@@ -218,6 +221,10 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto 0;
+    text-align: center;
 }
 
 .new-recommend-btn:hover {
