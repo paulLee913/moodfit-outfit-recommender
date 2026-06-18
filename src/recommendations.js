@@ -527,7 +527,14 @@ function generateRecommendation(weather, situation, mood) {
   };
 }
 
-module.exports = {
-  recommendationData,
-  generateRecommendation
-};
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    recommendationData,
+    generateRecommendation
+  };
+}
+
+if (typeof window !== 'undefined') {
+  window.recommendationData = recommendationData;
+  window.generateRecommendation = generateRecommendation;
+}

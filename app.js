@@ -32,7 +32,7 @@ function updateButtonState() {
 }
 
 // 추천 받기 클릭
-async function handleRecommendClick() {
+function handleRecommendClick() {
     const weather = document.querySelector('input[name="weather"]:checked');
     const situation = document.querySelector('input[name="situation"]:checked');
     const mood = document.querySelector('input[name="mood"]:checked');
@@ -47,30 +47,16 @@ async function handleRecommendClick() {
     showLoading();
 
     try {
-        const response = await fetch('/api/recommend', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                weather: weather.value, 
-                situation: situation.value, 
-                mood: mood.value 
-            })
-        });
+        const recommendation = generateRecommendation(weather.value, situation.value, mood.value);
 
-        if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.error || `오류 발생: ${response.status}`);
+        if (recommendation.error) {
+            throw new Error(recommendation.error);
         }
 
-        const data = await response.json();
-
-        // 결과 표시
-        displayResult(data);
+        displayResult(recommendation);
     } catch (error) {
         console.error('추천 요청 오류:', error);
-        showError(error.message || '서버와 통신할 수 없습니다. 잠시 후 다시 시도해주세요.');
+        showError(error.message || '추천 결과를 불러오는 중 오류가 발생했습니다.');
     } finally {
         hideLoading();
     }
